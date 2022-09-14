@@ -17,5 +17,5 @@ OUT_FILE=${WAV_PATH}/${TIMESTAMP}_${FREQUENCY}.wav
 
 echo "Recording for ${DURATION}..."
 timeout ${DURATION} rtl_fm -f ${FREQUENCY} -l ${SQUELCH} -M ${MODULATION} | tee "${RAW_FILE}" | timeout ${DURATION} nc -u ${STREAMING_HOST} ${STREAMING_PORT}
-# compand is used to limit loud noises from powerful sources by compressing the output audio signal
+# compand is used to compress the output audio in order to limit harmful peaks
 sox -traw -r24k -es -b16 -c1 -V1 "${RAW_FILE}" -twav "${OUT_FILE}" compand 0.2,0.5 6:-70,-60,-5 -15 -90 0.2 && rm "${RAW_FILE}"

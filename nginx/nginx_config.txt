@@ -1,0 +1,7 @@
+# Add this inside your "server{}" directive
+
+location /radio_recordings/ {
+        root       /usr/share/nginx/html;
+        autoindex on;
+        autoindex_format json;
+}
