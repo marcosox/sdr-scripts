@@ -1,0 +1,47 @@
+<html>
+<head><title>Audio streaming</title></head>
+<body>
+<script language="JavaScript">
+	// Set up our HTTP request
+    var xhr = new XMLHttpRequest();
+
+    var baseURL = "/radio_recordings/";
+
+    // Setup our listener to process completed requests
+    xhr.onload = function () {
+
+        // Process our return data
+        if (xhr.status >= 200 && xhr.status < 300) {
+            // Runs when the request is successful
+            let arr = JSON.parse(xhr.responseText);
+            console.log(arr);
+            for (let i=0; i<arr.length; i++) {
+                let elem = document.createElement("audio");
+                elem.src=baseURL + arr[i].name;
+                elem.controls=true;
+                elem.type="audio/wave";
+                elem.style="width: 100%";
+                let title = document.createElement("h5");
+                title.innerText = arr[i].name;
+                document.body.appendChild(title);
+                document.body.appendChild(elem);
+                document.body.appendChild(document.createElement("hr"));
+            }
+        } else {
+            // Runs when it's not
+            console.log(JSON.parse(xhr.responseText));
+            document.write(xhr.responseText);
+        }
+
+    };
+
+    // Create and send a GET request
+    // The first argument is the post type (GET, POST, PUT, DELETE, etc.)
+    // The second argument is the endpoint URL
+    xhr.open('GET', baseURL);
+    xhr.send();
+
+
+</script>
+</body>
+</html>
